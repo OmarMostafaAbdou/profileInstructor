@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axiosInstance from "../Axios/interceptor";
 import { useDropzone } from "react-dropzone";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Multiselect from "multiselect-react-dropdown";
+import { AuthContext } from "./context/AxiosProvider";
 
 function AddCourses() {
+  const { UserID } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -66,9 +68,10 @@ function AddCourses() {
     formData.append("categoryID", data.categoryID);
     formData.append("description", data.description);
     formData.append("level", data.level);
-    formData.append("tags", ...data.tags);
+    formData.append("tags", [...data.tags]);
     formData.append("duration", data.duration);
     formData.append("imgURL", Video);
+    formData.append("instructor", UserID);
 
     try {
       const response = await axiosInstance.post(

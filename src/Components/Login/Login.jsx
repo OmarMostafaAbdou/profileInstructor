@@ -1,36 +1,48 @@
-// import React from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import "./Login.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../Axios/interceptor";
+import { AuthContext } from "../context/AxiosProvider";
+
 function LoginForm() {
+  const { login, isAuthenticated, UserID } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  useEffect(() => {
+    if (isAuthenticated && UserID) {
+      navigate("/profile");
+    }
+  }, [isAuthenticated, UserID, navigate]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm();
 
-  const location = useNavigate();
   const onSubmit = (data) => {
-    console.log(data);
     axiosInstance
       .post("http://localhost:4000/user/login", data)
       .then((response) => {
-        console.log(response);
         localStorage.setItem("userID", response.data.data.user._id);
+        login(response.data.data.user);
+        const role = response.data.data.user.role;
+        if (role === "instructor") {
+          navigate("/profile", { state: response.data.data.user });
+        } else {
+          // Redirect to appropriate page for other roles
+        }
       })
       .catch((error) => {
+        setError("Invalid credentials. Please try again.");
         console.error("Error sending form data:", error);
       });
-    location("/profile");
   };
-  console.log(getValues());
 
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-center">
-        {/* left */}
+        {/* Left side */}
         <div className="bg md:w-1/3 flex bg-[#49bbbd9d] mx items-center  justify-center">
           <img
             src="src\assets\—Pngtree—knowledge tree pencil books stationery_4346186.png"
@@ -39,7 +51,7 @@ function LoginForm() {
           />
         </div>
 
-        {/* right */}
+        {/* Right side */}
         <div className="md:w-1/2 md:pl-8 flex justify-center">
           <div className="w-full md:w-3/4 bg-white rounded-lg p-8">
             <div className="text-center mb-6">
@@ -132,6 +144,8 @@ function LoginForm() {
                   Forgot Password?
                 </a>
               </div>
+
+              {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
 
               <button
                 type="submit"

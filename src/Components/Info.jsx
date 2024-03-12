@@ -1,14 +1,22 @@
 import axiosInstance from "../Axios/interceptor";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import img from "../assets/imgs/person.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import { useForm } from "react-hook-form";
-import { useRouteLoaderData } from "react-router-dom/dist";
+import { useLocation } from "react-router-dom/dist";
+import { AuthContext } from "./context/AxiosProvider";
 
 function Info() {
+  const { UserID } = useContext(AuthContext);
+  console.log(UserID);
+
+  const location = useLocation();
+  const users = location.state;
+  console.log(users);
+
   const {
     register,
     reset,
@@ -16,7 +24,6 @@ function Info() {
 
     formState: { errors },
   } = useForm();
-  const userID = localStorage.getItem("userID");
   const [userData, setUserData] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -37,7 +44,7 @@ function Info() {
 
     try {
       await axiosInstance.put(
-        `http://localhost:4000/user/update/${userID}`,
+        `http://localhost:4000/user/update/${users._id}`,
         data
       );
     } catch (error) {
@@ -49,7 +56,7 @@ function Info() {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(
-          `http://localhost:4000/user/${userID}`
+          `http://localhost:4000/user/${UserID}`
         );
         setUserData(response.data.data);
       } catch (error) {
@@ -57,10 +64,10 @@ function Info() {
       }
     };
 
-    if (userID) {
+    if (UserID) {
       fetchData();
     }
-  }, [userID]);
+  }, [UserID]);
 
   return (
     <div className="flex flex-col items-center mt-4  w-5/6 ml-[250px] justify-center">
