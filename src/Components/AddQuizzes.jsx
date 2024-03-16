@@ -105,7 +105,7 @@ const QuizForm = () => {
         questions,
         lessons: selectedLesson,
       };
-      axios
+      axiosInstance
         .post("http://localhost:4000/quiz/addQuiz", quizData)
         .then((Quiz) => {
           console.log(Quiz);

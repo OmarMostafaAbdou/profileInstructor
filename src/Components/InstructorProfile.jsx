@@ -5,6 +5,7 @@ import Info from "./Info";
 import AddCourses from "./AddCourses";
 import AddLessons from "./AddLessons";
 import AddQuiz from "./AddQuizzes";
+import UpdateProfile from "./UpdateProfile";
 
 function InstructorProfile() {
   return (
@@ -15,6 +16,7 @@ function InstructorProfile() {
         <Route path="/AddLesson" element={<AddLessons />} />
         <Route path="/AddQuiz" element={<AddQuiz />} />
         <Route path="/profile" element={<Info />} />
+        <Route path="/Update" element={<UpdateProfile />} />
       </Routes>
 
       {/* <UploadFile /> */}

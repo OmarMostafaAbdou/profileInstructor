@@ -42,7 +42,7 @@ function LoginForm() {
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-center">
-        {/* Left side */}
+       
         <div className="bg md:w-1/3 flex bg-[#49bbbd9d] mx items-center  justify-center">
           <img
             src="src\assets\—Pngtree—knowledge tree pencil books stationery_4346186.png"
@@ -51,7 +51,7 @@ function LoginForm() {
           />
         </div>
 
-        {/* Right side */}
+   
         <div className="md:w-1/2 md:pl-8 flex justify-center">
           <div className="w-full md:w-3/4 bg-white rounded-lg p-8">
             <div className="text-center mb-6">

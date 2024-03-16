@@ -1,6 +1,45 @@
-import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axiosInstance from "../Axios/interceptor";
+import { useForm } from "react-hook-form";
 
 function UpdateProfile() {
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const userID = location.state;
+  console.log(userID);
+
+  const {
+    register,
+
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm();
+  async function UpdateProfile(data) {
+    console.log(data);
+    const formData = new FormData();
+    formData.append("fullName", data.fullName);
+    formData.append("Email", data.Email);
+    formData.append("Password", data.Password);
+    formData.append("age", data.age);
+    formData.append("phone", data.phone);
+    formData.append("nationalId", data.nationalId);
+    formData.append("gender", data.gender);
+
+    try {
+      const response = await axiosInstance.put(
+        `http://localhost:4000/user/update/${userID}`,
+        data
+      );
+
+      alert(response.data.message);
+      navigate("/profile");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto w-full max-w-md lg:py-0 sm:p-0">
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700">

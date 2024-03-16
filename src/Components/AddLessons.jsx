@@ -72,6 +72,9 @@ function AddLessons() {
     formData.append("video", Video);
     formData.append("document", document);
     formData.append("duration", data.duration);
+    formData.append("description", data.description);
+    formData.append("subject", data.subject);
+    formData.append("lessonField", data.lessonField);
 
     axiosInstance
       .post("http://localhost:4000/lesson/addlesson", formData, {
@@ -219,6 +222,71 @@ function AddLessons() {
                 />
                 ;
               </div>
+
+              <div className="col-span-full">
+                <label
+                  htmlFor="description"
+                  className="block mb-2 text-md font-lg font-bold text-gray-900 dark:text-white"
+                >
+                  description
+                </label>
+                <textarea
+                  id="description"
+                  rows={3}
+                  className="block w-full text-lg p-2 rounded-2xl border-[#49bbbd] border-2 border-solid bg-gray-300 focus:outline-none"
+                  {...register("description", {
+                    required: true,
+                    minLength: 50,
+                  })}
+                />
+                <p className="text-[red] text-12 text-left">
+                  {errors.description &&
+                    "Description is required (min. 50 characters)"}
+                </p>
+              </div>
+              <div className="col-span-full">
+                <label
+                  htmlFor="subject"
+                  className="block mb-2 text-md font-lg font-bold text-gray-900 dark:text-white"
+                >
+                  subject
+                </label>
+                <textarea
+                  id="subject"
+                  rows={3}
+                  className="block w-full text-lg p-2 rounded-2xl border-[#49bbbd] border-2 border-solid bg-gray-300 focus:outline-none"
+                  {...register("subject", {
+                    required: true,
+                    minLength: 50,
+                  })}
+                />
+                <p className="text-[red] text-12 text-left">
+                  {errors.subject &&
+                    "Description is required (min. 50 characters)"}
+                </p>
+              </div>
+              <div className="col-span-full">
+                <label
+                  htmlFor="lessonField"
+                  className="block mb-2 text-md font-lg font-bold text-gray-900 dark:text-white"
+                >
+                  lessonField
+                </label>
+                <textarea
+                  id="lessonField"
+                  rows={3}
+                  className="block w-full text-lg p-2 rounded-2xl border-[#49bbbd] border-2 border-solid bg-gray-300 focus:outline-none"
+                  {...register("lessonField", {
+                    required: true,
+                    minLength: 50,
+                  })}
+                />
+                <p className="text-[red] text-12 text-left">
+                  {errors.lessonField &&
+                    "lessonField is required (min. 50 characters)"}
+                </p>
+              </div>
+
               <div className="col-span-full sm:col-span-6">
                 <label
                   className="block mb-2 text-md font-lg font-bold  text-gray-900 dark:text-white"
